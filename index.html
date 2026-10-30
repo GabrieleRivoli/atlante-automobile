@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="it" data-root="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Atlante dell'Automobile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="card">
+<header id="top"></header>
+<main>
+  <section class="hero">
+    <h1 class="mega">atlante</h1>
+    <div class="rule"></div>
+    <p class="sub">dell'automobile.</p>
+    <p class="tiny">Storia dell'automobile in schede, dal 1886.<br>(Aggiornato 29.10.2026)</p>
+  </section>
+
+  <section class="intro">
+    <p class="tiny l">Ogni scheda riporta il progettista, le innovazioni tecniche spiegate con diagrammi e animazioni, e i link verso le altre voci. I link tratteggiati puntano a schede non ancora pubblicate.</p>
+    <p class="r">Un archivio costruito<br>una scheda alla volta,<br>dai modelli fondamentali<br>alle rarità e alle nicchie.</p>
+  </section>
+
+  <nav class="three" aria-label="Sezioni">
+    <a href="#g-modello" data-grp="modello">Modelli</a>
+    <a href="#g-persona" data-grp="persona">Persone</a>
+    <a href="#g-tecnologia" data-grp="tecnologia">Tecnologie</a>
+  </nav>
+
+  <section id="news">
+    <h2 class="hd">Ultime schede</h2>
+    <ol class="tbl" id="news-list"></ol>
+  </section>
+
+  <section id="archivio">
+    <div id="lists"></div>
+    <p class="note" style="margin-top:36px">Ordine delle schede provvisorio: prima i modelli fondamentali, poi le varianti, le rarità e le nicchie. Persone e tecnologie compaiono qui man mano che gli articoli le citano.</p>
+  </section>
+</main>
+<footer id="foot"></footer>
+</div>
+<script src="assets/atlante.js"></script>
+</body>
+</html>
