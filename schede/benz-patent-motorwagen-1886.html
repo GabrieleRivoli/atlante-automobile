@@ -18,7 +18,7 @@
   <h1 class="title">Benz<br>Patent-Motorwagen</h1>
   <p class="stand">Telaio, motore, trasmissione e sterzo progettati come un unico veicolo. Il brevetto è del 2 novembre 1886.</p>
   <nav class="toc" aria-label="In questa scheda">
-    <button data-go="progettista">Progettista</button><button data-go="motore">Motore</button><button data-go="accensione">Accensione</button><button data-go="alimentazione">Alimentazione</button><button data-go="raffreddamento">Raffreddamento</button><button data-go="trasmissione">Trasmissione</button><button data-go="telaio">Telaio</button><button data-go="viaggio">Viaggio 1888</button>
+    <button data-go="dimensioni">Dimensioni</button><button data-go="progettista">Progettista</button><button data-go="motore">Motore</button><button data-go="accensione">Accensione</button><button data-go="alimentazione">Alimentazione</button><button data-go="raffreddamento">Raffreddamento</button><button data-go="trasmissione">Trasmissione</button><button data-go="telaio">Telaio</button><button data-go="viaggio">Viaggio 1888</button>
   </nav>
 
   <figure class="fig">
@@ -87,6 +87,18 @@
     </div>
   </div>
 
+  <div class="sec" id="dimensioni">
+    <h2 class="lab">Dimensioni</h2>
+    <div class="bd">
+      <p class="k">Piccolo, alto e leggero: una carrozza senza cavallo.</p>
+      <p>Per capire la taglia: passo 1.450 mm, carreggiata posteriore 1.190 mm, ruote posteriori da 1.260 mm di diametro (Nr. 2 e successivi; il disegno del brevetto ne prevedeva 1.400). Accanto al triciclo c'è una figura di 1,75 m. Trascina per ruotare, doppio clic per tornare alla vista isometrica.</p>
+      <figure class="fig">
+        <div id="veh3d" class="v3d" hidden></div>
+        <figcaption id="capv"><b>Fig. 2</b>Modello 3D molto semplificato, solo per le proporzioni: telaio, sedile, motore, serbatoio e sterzo sono abbozzi.</figcaption>
+      </figure>
+    </div>
+  </div>
+
   <div class="sec" id="progettista">
     <h2 class="lab">Progettista</h2>
     <div class="bd">
@@ -133,7 +145,7 @@
           <button type="button" data-ph="0">1 Aspirazione</button><button type="button" data-ph="1">2 Compressione</button><button type="button" data-ph="2">3 Scoppio</button><button type="button" data-ph="3">4 Scarico</button>
         </div>
         <p class="phase"><b id="phn"></b><span id="phd"></span></p>
-        <figcaption id="cap2"><b>Fig. 2</b>Un ciclo completo richiede due giri dell'albero (720°). Proporzioni di biella e valvole indicative; la corsa reale è di 150 mm.</figcaption>
+        <figcaption id="cap2"><b>Fig. 3</b>Un ciclo completo richiede due giri dell'albero (720°). Proporzioni di biella e valvole indicative; la corsa reale è di 150 mm.</figcaption>
       </figure>
 
       <p>La valvola di scarico è a fungo, comandata da un'asta; sul Model 2 l'aspirazione è una valvola a cassetto. Con un solo cilindro, un tempo su quattro produce lavoro: il volano accumula energia e la restituisce nei tre tempi passivi. A 250–400 giri/min significa circa due o tre scoppi al secondo.</p>
@@ -172,7 +184,7 @@
           <text class="mu" x="406" y="134" text-anchor="end">Candela</text>
           <text class="mu" x="404" y="184" text-anchor="end">scintilla</text>
         </svg>
-        <figcaption><b>Fig. 3</b>Schema generico di una bobina vibrante, non in scala. Il primario (in colore) ha poche spire, il secondario (sottile) ne ha molte. Il contatto si chiude per un istante a ogni ciclo.</figcaption>
+        <figcaption><b>Fig. 4</b>Schema generico di una bobina vibrante, non in scala. Il primario (in colore) ha poche spire, il secondario (sottile) ne ha molte. Il contatto si chiude per un istante a ogni ciclo.</figcaption>
       </figure>
     </div>
   </div>
@@ -203,7 +215,7 @@
           <path class="ln ac" d="M370 36 V52 M366 46 l4 6 l4 -6"/>
           <text class="mu" x="370" y="26" text-anchor="middle">aria di diluizione</text>
         </svg>
-        <figcaption><b>Fig. 4</b>Principio del carburatore a superficie, non in scala. Le bolle indicano il vapore che si stacca dal liquido.</figcaption>
+        <figcaption><b>Fig. 5</b>Principio del carburatore a superficie, non in scala. Le bolle indicano il vapore che si stacca dal liquido.</figcaption>
       </figure>
     </div>
   </div>
@@ -235,7 +247,7 @@
           <text class="mu" x="192" y="92" text-anchor="end">acqua calda</text>
           <text class="mu" x="402" y="150" text-anchor="end">acqua fredda</text>
         </svg>
-        <figcaption><b>Fig. 5</b>Circuito a termosifone, non in scala. La circolazione nasce solo dalla differenza di temperatura.</figcaption>
+        <figcaption><b>Fig. 6</b>Circuito a termosifone, non in scala. La circolazione nasce solo dalla differenza di temperatura.</figcaption>
       </figure>
     </div>
   </div>
@@ -246,7 +258,8 @@
       <p class="k">Cinghia, contralbero, due catene.</p>
       <p>Una cinghia piatta porta il moto dal motore a un contralbero con puleggia in due parti; in generale, una puleggia di questo tipo permette di spostare la cinghia e togliere la trazione. Dal Nr. 2 compare un riduttore con marcia bassa, innestato da una leva, e un <a class="ref" data-ref="differenziale">differenziale</a> tra le due uscite. Due catene collegano il contralbero alle ruote posteriori. Non esiste la retromarcia.</p>
       <figure class="fig">
-        <svg viewBox="0 0 480 260" role="img" aria-label="Schema in pianta della trasmissione: volano, cinghia, contralbero con differenziale, catene, ruote posteriori">
+        <div id="tr3d" class="v3d" hidden></div>
+        <svg id="trsvg" viewBox="0 0 480 260" role="img" aria-label="Schema in pianta della trasmissione: volano, cinghia, contralbero con differenziale, catene, ruote posteriori">
           <text class="mu" x="12" y="18">VISTA DALL'ALTO · ANTERIORE A SINISTRA</text>
           <rect class="ln fp" x="36" y="117" width="12" height="26" rx="2"/>
           <text class="mu" x="14" y="176">ruota anteriore</text>
@@ -273,7 +286,8 @@
           <text class="mu" x="368" y="94" text-anchor="middle">catena</text>
           <text class="mu" x="410" y="238" text-anchor="middle">ruote posteriori</text>
         </svg>
-        <figcaption><b>Fig. 6</b>Schema semplificato in pianta, non in scala. La geometria reale della cinghia non è rappresentata.</figcaption>
+        <div class="ctl" id="trctl" hidden><button class="btn" id="trplay" type="button">Pausa</button></div>
+        <figcaption id="cap7"><b>Fig. 7</b>Schema semplificato in pianta, non in scala. La geometria reale della cinghia non è rappresentata.</figcaption>
       </figure>
     </div>
   </div>
@@ -316,7 +330,7 @@
         <li><a href="https://en.wikipedia.org/wiki/Benz_Patent-Motorwagen" target="_blank" rel="noopener">Wikipedia, Benz Patent-Motorwagen</a>: dati tecnici, brevetti, evoluzione dei modelli.</li>
         <li><a href="https://qm.org.qa/en/stories/all-stories/bertha-benz-and-the-patent-motorwagen/" target="_blank" rel="noopener">Qatar Museums, Bertha Benz and the Patent-Motorwagen</a>: viaggio del 1888.</li>
       </ol>
-      <p class="note">Lacune: le fonti divergono su regime di potenza (250 o 400 giri/min), velocità massima (16 o 20 km/h), peso (340 o 360 kg) e modello usato nel viaggio (Nr. 3 secondo Qatar Museums). Non ho ancora controllato l'archivio ufficiale Mercedes-Benz Classic. Le immagini sono disegni schematici, non fotografie. Nel modello 3D del motore la disposizione della distribuzione (bilanciere, asta, camma) e le proporzioni di biella, camera di scoppio e volano non sono verificate su fonti: sono una ricostruzione plausibile.</p>
+      <p class="note">Lacune: le fonti divergono su regime di potenza (250 o 400 giri/min), velocità massima (16 o 20 km/h), peso (340 o 360 kg) e modello usato nel viaggio (Nr. 3 secondo Qatar Museums). Non ho ancora controllato l'archivio ufficiale Mercedes-Benz Classic. Le immagini sono disegni schematici, non fotografie. Nei modelli 3D il diametro della ruota anteriore, telaio, sedile, posizione di motore e serbatoio, geometria della cinghia e rapporti di rotazione della trasmissione sono stime indicative; nel modello del motore la disposizione della distribuzione (bilanciere, asta, camma) e le proporzioni di biella, camera di scoppio e volano non sono verificate su fonti: sono una ricostruzione plausibile. Se il 3D non si carica resta il disegno 2D.</p>
     </div>
   </div>
 
@@ -382,11 +396,23 @@
       host.hidden=false;
       try{view3d=m[0].mount(host,m[1].build(m[0]));}catch(e){host.hidden=true;view3d=null;return;}
       svg.style.display='none';
-      $('cap2').innerHTML="<b>Fig. 2</b>Modello 3D semplificato in proiezione ortogonale, non in scala: solo spigoli e contorni, linee nascoste tratteggiate. Volano orizzontale, albero motore verticale, cilindro orizzontale con la testata a sinistra. Un ciclo completo richiede due giri dell'albero (720°). Alesaggio e corsa (90 e 150 mm) sono quelli dichiarati; lunghezza di biella, volume della camera, diametro del volano e distribuzione (bilanciere, asta e camma a metà giri, il cui azionamento non è disegnato) sono ricostruiti in modo indicativo.";
+      $('cap2').innerHTML="<b>Fig. 3</b>Modello 3D semplificato in proiezione ortogonale, non in scala: solo spigoli e contorni, linee nascoste tratteggiate. Volano orizzontale, albero motore verticale, cilindro orizzontale con la testata a sinistra. Un ciclo completo richiede due giri dell'albero (720°). Alesaggio e corsa (90 e 150 mm) sono quelli dichiarati; lunghezza di biella, volume della camera, diametro del volano e distribuzione (bilanciere, asta e camma a metà giri, il cui azionamento non è disegnato) sono ricostruiti in modo indicativo.";
       draw();
     }).catch(function(){});
   }
   if('IntersectionObserver' in window){var io3=new IntersectionObserver(function(en){if(en[0].isIntersecting){io3.disconnect();boot3d();}},{rootMargin:'400px'});io3.observe(fig);}else{boot3d();}
+  /* sagoma del veicolo */
+  ATLANTE.fig3d({host:$('veh3d'),def:'./benz-patent-motorwagen-1886.veicolo.3d.js',cap:$('capv'),capHtml:"<b>Fig. 2</b>Modello 3D molto semplificato, solo per le proporzioni, in proiezione ortogonale. Passo (1.450 mm), carreggiata posteriore (1.190 mm) e diametro delle ruote posteriori (1.260 mm) vengono da Wikipedia; diametro della ruota anteriore, telaio, sedile, posizione di motore e serbatoio e sterzo sono stime indicative. La figura umana è alta 1,75 m."});
+  /* trasmissione 3D: il disegno 2D resta come ripiego */
+  ATLANTE.fig3d({host:$('tr3d'),svg:$('trsvg'),def:'./benz-patent-motorwagen-1886.trasmissione.3d.js',cap:$('cap7'),
+    capHtml:"<b>Fig. 7</b>Schema 3D semplificato della trasmissione, non in scala: volano, cinghia, contralbero con differenziale, due catene, ruote posteriori. La geometria della cinghia e i rapporti di rotazione sono illustrativi, non verificati.",
+    ready:function(v){
+      var ctl=$('trctl'),pb=$('trplay'),ang=0,play=!window.matchMedia('(prefers-reduced-motion: reduce)').matches,last=0,seen=true;
+      ctl.hidden=false;pb.textContent=play?'Pausa':'Avvia';
+      pb.addEventListener('click',function(){play=!play;pb.textContent=play?'Pausa':'Avvia';});
+      if('IntersectionObserver' in window){new IntersectionObserver(function(en){seen=en[0].isIntersecting;}).observe($('tr3d'));}
+      (function lp(t){if(play&&seen){if(last){ang=(ang+(t-last)*0.12)%7200;v.set(ang);}}last=t;requestAnimationFrame(lp);})(0);
+    }});
 })();
 </script>
 </body>

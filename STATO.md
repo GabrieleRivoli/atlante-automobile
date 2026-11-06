@@ -12,10 +12,11 @@ Daimler Reitwagen (1885), Panhard & Levassor (1891), Duryea Motor Wagon (1893), 
 ## Procedura
 Vedi il documento di progetto claude/stato-atlante.md: nuova scheda = schede/<slug>.html + schede/<slug>.js, commit su main, verifica online con fetch.
 
-## Disegni tecnici 3D (pilota, 6 novembre 2026)
+## Disegni tecnici 3D (6 novembre 2026)
 - Modulo `assets/tecnico3d.js` (568 KB, Three.js incluso, file generato). Sorgente in `tools/src/tecnico3d.src.js`. Si rigenera solo se si tocca il sorgente: `cd tools && npm install && npm run build`.
-- Una scheda con 3D ha `schede/<slug>.3d.js` (esporta `build(T)` che restituisce `{parts, pose, views, start}`) e un `<div id="..." class="v3d" hidden>` nella figura. Lo script inline carica il modulo con `import()` solo quando la figura sta per entrare in vista e lascia l'SVG 2D come ripiego (nessun WebGL, errore di caricamento). Esempio completo: `schede/benz-patent-motorwagen-1886.html` (Fig. 2) e il suo `.3d.js`.
-- Helper del modulo: `cylinder, cone, tube, lathe, box, extrude, merge, helix, star`. Unità in mm, asse Y verso l'alto. Parte: `{id, g, explode, accent, tint, cuts, cutFixed, vol, nobox, hidden}`. `pose(a, H, S)` imposta `pos/rot/scl` e `alpha()` dei pezzi in funzione dell'angolo `a`.
-- Il modulo calcola da solo spigoli, contorni, linee nascoste, sezione (piano z = 0), esploso, inquadratura e comandi (Isometrica, Pianta, Fianco, Sezione, Linee nascoste, Esploso).
-- Per ora solo la scheda 001 (motore, Fig. 2) usa il 3D. Le altre schede restano in SVG; il 3D è opzionale.
-
+- Resa: camera ortografica, solo spigoli e contorni, linee nascoste tratteggiate (pulsante). Niente quote, niente esploso, niente sezione (scelta di Gabri: i modelli non sono abbastanza dettagliati).
+- Caricamento: nella figura un `<div id="x" class="v3d" hidden>`, e nello script inline `ATLANTE.fig3d({host, svg, cap, capHtml, def:'./<slug>.<nome>.3d.js', ready(view)})` (in assets/atlante.js). Il modulo si carica con `import()` solo quando la figura sta per entrare in vista; se WebGL o il caricamento falliscono resta il disegno SVG 2D (se c'è). `ready(view)` riceve `view.set(a)`, da chiamare al posto di ridisegnare l'SVG.
+- Un file modello `schede/<slug>.<nome>.3d.js` esporta `build(T)` e restituisce `{label, parts, pose(a,H,S), a0, samples, view, buttons, views, pad}`. Helper di T: `cylinder, cone, tube, lathe, box, extrude, merge, helix, star, sphere, rod({a,b,r}), wheel({R,w,tyre,spokes,hub,sp,axis,at}), person({at})` (figura umana 1,75 m). Unità mm, Y verso l'alto. Parte: `{id, g, accent, tint, ghost, vol, nobox, hidden}`; `ghost` = solo linee grigie senza occlusione (cilindri trasparenti, figura umana, suolo). `pose` imposta `pos/rot/scl` e `alpha()` per ogni id. `buttons` sceglie le viste tra iso, pianta, fianco, fronte; `view` la vista iniziale; `samples` le pose usate per l'inquadratura.
+- Quando applicarlo: veicolo intero (sagoma con persona per la scala, sempre), meccanismi con parti in movimento reale (motore, trasmissione, accensione, sterzo). Restano in 2D gli schemi di principio con flussi o circuiti (bobina, carburatore, circuito di raffreddamento) e le tavole numerate.
+- Convenzioni dei veicoli: avanti = +X, suolo y = 0, asse posteriore a x = 0, ruote con asse Z. Dichiarare in didascalia e in "Fonti e lacune" cosa viene da fonte e cosa è stima.
+- Presenti: 001 sagoma (Fig. 2), motore (Fig. 3), trasmissione (Fig. 7); 002 sagoma (Fig. 2), tubo incandescente (Fig. 3), sterzo (Fig. 4).

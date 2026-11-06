@@ -177,6 +177,24 @@
     });
   }
 
+  /* figure 3D: carica il modulo solo quando la figura sta per entrare in vista; se fallisce resta il disegno 2D.
+     o = {host, svg (da nascondere), cap (figcaption), capHtml, def (percorso del modello rispetto al documento), ready(view)} */
+  A.fig3d=function(o){
+    var fig=o.host.closest('figure')||o.host.parentNode,started=false;
+    var imp=function(u){return new Function('u','return import(u)')(new URL(u,document.baseURI).href);};
+    function boot(){
+      if(started){return;}started=true;
+      Promise.all([imp(root+'assets/tecnico3d.js'),imp(o.def)]).then(function(m){
+        o.host.hidden=false;var v;
+        try{v=m[0].mount(o.host,m[1].build(m[0]));}catch(e){o.host.hidden=true;return;}
+        if(o.svg){o.svg.style.display='none';}
+        if(o.cap&&o.capHtml){o.cap.innerHTML=o.capHtml;}
+        if(o.ready){o.ready(v);}
+      }).catch(function(){});
+    }
+    if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){if(en[0].isIntersecting){io.disconnect();boot();}},{rootMargin:'400px'});io.observe(fig);}else{boot();}
+  };
+
   function init(){
     chrome();spokes();toc();
     A.ready(function(){refs();home();footState();});

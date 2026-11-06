@@ -1,11 +1,11 @@
 /* Atlante dell'Automobile: disegno tecnico 3D.
    Sorgente del modulo. Il file servito è assets/tecnico3d.js (bundle con Three.js, `npm run build` in tools/).
-   Resa: camera ortografica, solo spigoli e contorni, linee nascoste tratteggiate, sezione, esploso.
+   Resa: camera ortografica, solo spigoli e contorni, linee nascoste tratteggiate.
    Le schede descrivono solo i propri pezzi (schede/<slug>.3d.js) con gli helper esportati qui. */
 import {
   WebGLRenderer, Scene, OrthographicCamera, Group, Mesh, LineSegments, BufferGeometry, Float32BufferAttribute,
-  MeshBasicMaterial, LineBasicMaterial, LineDashedMaterial, Plane, Vector2, Vector3, Matrix4, DoubleSide,
-  GreaterDepth, CylinderGeometry, BoxGeometry, LatheGeometry, PlaneGeometry, Shape, Path, ExtrudeGeometry
+  MeshBasicMaterial, LineBasicMaterial, LineDashedMaterial, Vector2, Vector3, Matrix4, Quaternion, DoubleSide,
+  GreaterDepth, CylinderGeometry, BoxGeometry, LatheGeometry, SphereGeometry, Shape, Path, ExtrudeGeometry
 } from 'three';
 
 const PI = Math.PI;
@@ -34,6 +34,43 @@ export function tube(o) {
 }
 /* solido di rivoluzione: pts [[raggio, quota],...] attorno all'asse; {axis, at, seg} */
 export function lathe(o) { return orient(new LatheGeometry(o.pts.map(p => new Vector2(p[0], p[1])), o.seg || 36), o.axis || 'y', o.at); }
+/* asta tra due punti: {a:[x,y,z], b:[x,y,z], r, seg} */
+export function rod(o) {
+  const a = new Vector3(...o.a), b = new Vector3(...o.b), d = b.clone().sub(a), len = d.length();
+  const g = new CylinderGeometry(o.r, o.r, len, o.seg || 12, 1, false);
+  g.applyQuaternion(new Quaternion().setFromUnitVectors(new Vector3(0, 1, 0), d.normalize()));
+  g.translate((a.x + b.x) / 2, (a.y + b.y) / 2, (a.z + b.z) / 2);
+  return clean(g);
+}
+/* figura umana in piedi alta 1750 mm, per dare la scala: {at:[x,0,z]} (i piedi poggiano su y = at[1]) */
+export function person(o) {
+  const at = o.at || [0, 0, 0], p = (x, y, z) => [at[0] + x, at[1] + y, at[2] + z];
+  return merge([
+    cylinder({ r: 68, l: 840, at: p(0, 420, -95), seg: 14 }), cylinder({ r: 68, l: 840, at: p(0, 420, 95), seg: 14 }),
+    box({ w: 230, h: 240, d: 380, at: p(0, 960, 0) }), box({ w: 240, h: 520, d: 400, at: p(0, 1340, 0) }),
+    cylinder({ r: 42, l: 640, at: p(0, 1330, -250), seg: 12 }), cylinder({ r: 42, l: 640, at: p(0, 1330, 250), seg: 12 }),
+    cylinder({ r: 40, l: 90, at: p(0, 1660, 0), seg: 12 }), sphere({ r: 105, at: p(0, 1645, 0), seg: 16 })
+  ]);
+}
+export function sphere(o) { return orient(new SphereGeometry(o.r, o.seg || 20, Math.max(8, Math.round((o.seg || 20) / 2))), 'y', o.at); }
+/* ruota a raggi (asse z di default): {R, w larghezza, tyre sezione gomma, spokes, hub, axis, at} */
+export function wheel(o) {
+  const R = o.R, w = o.w || 40, t = o.tyre || 18, n = o.spokes || 12, hub = o.hub || R * 0.09, sp = o.sp || Math.max(6, R * 0.02), seg = o.seg || 48;
+  const parts = [
+    lathe({ axis: 'y', seg, pts: [[R - t, -w / 2], [R, -w / 2], [R, w / 2], [R - t, w / 2], [R - t, -w / 2]] }),
+    cylinder({ r: hub, l: w * 1.6, axis: 'y', seg: 20 })
+  ];
+  for (let k = 0; k < n; k++) {
+    const g = box({ w: R - t - hub * 0.6, h: w * 0.4, d: sp, at: [(R - t + hub * 0.6) / 2, 0, 0] });
+    g.rotateY(k * 2 * PI / n); parts.push(g);
+  }
+  const g = merge(parts);
+  /* costruita con l'asse lungo Y: la porta sull'asse richiesto */
+  const ax = o.axis || 'z';
+  if (ax === 'z') g.rotateX(PI / 2); else if (ax === 'x') g.rotateZ(-PI / 2);
+  if (o.at) g.translate(o.at[0], o.at[1], o.at[2]);
+  return clean(g);
+}
 export function box(o) { return orient(new BoxGeometry(o.w, o.h, o.d), 'y', o.at); }
 /* estrusione di un profilo piano: pts [[u,v],...], depth, axis 'z' (profilo in XY) o 'y' (profilo in XZ: u=x, v=z), holes */
 export function extrude(o) {
@@ -146,26 +183,22 @@ export function mount(host, def) {
     renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
   } catch (err) { host.removeChild(canvas); throw err; }
   renderer.setClearColor(0x000000, 0);
-  renderer.localClippingEnabled = true;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
   const scene = new Scene();
   const cam = new OrthographicCamera(-1, 1, 1, -1, 1, 12000);
-  const plane = new Plane(new Vector3(0, 0, -1), 1000);   /* tiene z <= costante */
-  const clip = [plane];
 
   /* materiali condivisi; i colori vengono dalle variabili CSS del sito */
   const reg = [];
   const mk = (M, role, props) => { const m = new M(props); reg.push({ m, role }); return m; };
   const offs = { polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 };
-  const mOcc = new MeshBasicMaterial(Object.assign({ colorWrite: false, side: DoubleSide, clippingPlanes: clip }, offs));
-  const mInk = mk(LineBasicMaterial, 'ink', { clippingPlanes: clip });
-  const mAcc = mk(LineBasicMaterial, 'accent', { clippingPlanes: clip });
-  const dash = { dashSize: 7, gapSize: 6, depthFunc: GreaterDepth, depthWrite: false, transparent: true, clippingPlanes: clip };
+  const mOcc = new MeshBasicMaterial(Object.assign({ colorWrite: false, side: DoubleSide }, offs));
+  const mInk = mk(LineBasicMaterial, 'ink', {});
+  const mAcc = mk(LineBasicMaterial, 'accent', {});
+  const mGho = mk(LineBasicMaterial, 'muted', { transparent: true, opacity: 0.75 });
+  const dash = { dashSize: 7, gapSize: 6, depthFunc: GreaterDepth, depthWrite: false, transparent: true };
   const mHidInk = mk(LineDashedMaterial, 'muted', Object.assign({ opacity: 0.8 }, dash));
   const mHidAcc = mk(LineDashedMaterial, 'accent', Object.assign({ opacity: 0.6 }, dash));
-  const mCutFill = mk(MeshBasicMaterial, 'accent', Object.assign({ transparent: true, opacity: 0.22, depthWrite: false, side: DoubleSide }, offs));
-  const mCutLine = mk(LineBasicMaterial, 'ink', { transparent: true });
   let C = {};
   function theme() {
     const cs = getComputedStyle(document.documentElement), g = (n, d) => (cs.getPropertyValue(n) || '').trim() || d;
@@ -179,47 +212,35 @@ export function mount(host, def) {
   const vl = new Vector3(), vw = new Vector3(), inv = new Matrix4();
   def.parts.forEach(pd => {
     const root = new Group(), body = new Group(); root.add(body); scene.add(root);
-    const P = { pd, root, body, ex: pd.explode || [0, 0, 0], own: null, kind: 'mesh' };
+    const P = { pd, root, body, own: null, kind: 'mesh' };
     const g = pd.g;
     if (g.segs) {
       P.kind = 'segs';
       const lg = new BufferGeometry(); lg.setAttribute('position', new Float32BufferAttribute(g.segs, 3));
-      P.own = mk(LineBasicMaterial, pd.accent ? 'accent' : 'ink', { clippingPlanes: clip, transparent: true });
+      P.own = mk(LineBasicMaterial, pd.accent ? 'accent' : 'ink', { transparent: true });
       const ls = new LineSegments(lg, P.own); ls.renderOrder = 1; ls.frustumCulled = false; body.add(ls);
       P.hp = hull(lg);
     } else if (pd.vol) {
       P.kind = 'vol';
-      P.own = mk(MeshBasicMaterial, pd.accent === false ? 'muted' : 'accent', { transparent: true, opacity: 0.2, depthWrite: false, side: DoubleSide, clippingPlanes: clip });
+      P.own = mk(MeshBasicMaterial, pd.accent === false ? 'muted' : 'accent', { transparent: true, opacity: 0.2, depthWrite: false, side: DoubleSide });
       const m = new Mesh(g, P.own); m.renderOrder = 3; m.frustumCulled = false; body.add(m);
     } else {
       P.E = buildEdges(g); P.hp = hull(g);
-      const occ = new Mesh(g, mOcc); occ.renderOrder = 0; occ.frustumCulled = false; body.add(occ);
+      if (!pd.ghost) { const occ = new Mesh(g, mOcc); occ.renderOrder = 0; occ.frustumCulled = false; body.add(occ); }
       const lg = new BufferGeometry();
       P.lpos = new Float32Array(P.E.n * 6); P.lld = new Float32Array(P.E.n * 2);
       lg.setAttribute('position', new Float32BufferAttribute(P.lpos, 3).setUsage(35048));
       lg.setAttribute('lineDistance', new Float32BufferAttribute(P.lld, 1).setUsage(35048));
       P.lpos = lg.attributes.position.array; P.lld = lg.attributes.lineDistance.array;   /* il costruttore copia: si scrive sull'array dell'attributo */
       P.lg = lg;
-      P.solid = new LineSegments(lg, pd.accent ? mAcc : mInk); P.solid.renderOrder = 1; P.solid.frustumCulled = false;
+      P.solid = new LineSegments(lg, pd.ghost ? mGho : pd.accent ? mAcc : mInk); P.solid.renderOrder = 1; P.solid.frustumCulled = false;
       P.dash = new LineSegments(lg, pd.accent ? mHidAcc : mHidInk); P.dash.renderOrder = 2; P.dash.frustumCulled = false;
-      body.add(P.solid, P.dash);
+      body.add(P.solid); if (!pd.ghost) body.add(P.dash);
       if (pd.tint) {
-        P.own = mk(MeshBasicMaterial, 'accent', Object.assign({ transparent: true, opacity: pd.tint, depthWrite: false, side: DoubleSide, clippingPlanes: clip }, offs));
+        P.own = mk(MeshBasicMaterial, 'accent', Object.assign({ transparent: true, opacity: pd.tint, depthWrite: false, side: DoubleSide }, offs));
         const t = new Mesh(g, P.own); t.renderOrder = 3; t.frustumCulled = false; body.add(t);
       }
     }
-    /* superfici di taglio (piano z = 0, coordinate locali del pezzo) */
-    P.cuts = [];
-    (pd.cuts || []).forEach(c => {
-      const r = c.r, w = r[2] - r[0], h = r[3] - r[1];
-      const pg = new PlaneGeometry(w, h); pg.translate((r[0] + r[2]) / 2, (r[1] + r[3]) / 2, 0);
-      const fm = mk(MeshBasicMaterial, 'accent', Object.assign({ transparent: true, opacity: 0.22 * (c.k == null ? 1 : c.k), depthWrite: false, side: DoubleSide }, offs));
-      const f = new Mesh(pg, fm); f.renderOrder = 4; f.frustumCulled = false;
-      const lg = new BufferGeometry();
-      lg.setAttribute('position', new Float32BufferAttribute([r[0], r[1], 0, r[2], r[1], 0, r[2], r[1], 0, r[2], r[3], 0, r[2], r[3], 0, r[0], r[3], 0, r[0], r[3], 0, r[0], r[1], 0], 3));
-      const l = new LineSegments(lg, mCutLine); l.renderOrder = 4; l.frustumCulled = false;
-      f.visible = l.visible = false; (pd.cutFixed ? root : body).add(f, l); P.cuts.push(f, l); (P.cutMats = P.cutMats || []).push([fm, 0.22 * (c.k == null ? 1 : c.k)]);
-    });
     list.push(P);
     H[pd.id] = {
       pos: body.position, rot: body.rotation, scl: body.scale,
@@ -230,45 +251,44 @@ export function mount(host, def) {
   });
 
   /* stato e telecamera */
-  const V = Object.assign({ iso: { az: -32, el: 26 }, pianta: { az: 0, el: 89.5 }, fianco: { az: 0, el: 0 } }, def.views || {});
-  const S = { az: V.iso.az, el: V.iso.el, e: 0, cut: 1, hid: 0, a: def.a0 || 0 };
+  const V = Object.assign({ iso: { az: -32, el: 26 }, pianta: { az: 0, el: 89.5 }, fianco: { az: 0, el: 0 }, fronte: { az: 90, el: 0 } }, def.views || {});
+  const S = { az: V.iso.az, el: V.iso.el, hid: 0, a: def.a0 || 0 };
+  if (def.view && V[def.view]) { S.az = V[def.view].az; S.el = V[def.view].el; }
   const tw = {};
   let dirty = true, raf = 0, visible = true, W = 1, Ht = 1, target = new Vector3(), dragging = null;
   const dir = new Vector3();
 
   const SAMPLES = def.samples || [0, 60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 660];
-  /* ingombro: punti estremi di ogni pezzo in ogni posa campionata, con e senza esploso (le pose identiche si contano una volta) */
+  /* ingombro: punti estremi di ogni pezzo in ogni posa campionata (le pose identiche si contano una volta) */
   function boxes() {
-    [0, 1].forEach(e => {
-      list.forEach(P => { P.root.position.set(P.ex[0] * e, P.ex[1] * e, P.ex[2] * e); P['q' + e] = []; P['m' + e] = null; });
-      SAMPLES.forEach(a => {
-        def.pose(a, H, { e, cut: 1, a });
-        scene.updateMatrixWorld(true);
-        list.forEach(P => {
-          if (!P.hp || P.pd.nobox) return;
-          const m = P.body.matrixWorld.elements;
-          if (P['m' + e] && P['m' + e].every((v, k) => Math.abs(v - m[k]) < 1e-6)) return;
-          P['m' + e] = m.slice();
-          for (let i = 0; i < P.hp.length; i += 3) {
-            vl.set(P.hp[i], P.hp[i + 1], P.hp[i + 2]).applyMatrix4(P.body.matrixWorld);
-            P['q' + e].push(vl.x, vl.y, vl.z);
-          }
-        });
+    list.forEach(P => { P.q = []; P.m = null; });
+    SAMPLES.forEach(a => {
+      def.pose(a, H, { a, e: 0 });
+      scene.updateMatrixWorld(true);
+      list.forEach(P => {
+        if (!P.hp || P.pd.nobox) return;
+        const m = P.body.matrixWorld.elements;
+        if (P.m && P.m.every((v, k) => Math.abs(v - m[k]) < 1e-6)) return;
+        P.m = m.slice();
+        for (let i = 0; i < P.hp.length; i += 3) {
+          vl.set(P.hp[i], P.hp[i + 1], P.hp[i + 2]).applyMatrix4(P.body.matrixWorld);
+          P.q.push(vl.x, vl.y, vl.z);
+        }
       });
     });
     const t = [1e9, 1e9, 1e9, -1e9, -1e9, -1e9];
-    list.forEach(P => { const q = P.q0; if (q) for (let i = 0; i < q.length; i += 3) for (let k = 0; k < 3; k++) { t[k] = Math.min(t[k], q[i + k]); t[k + 3] = Math.max(t[k + 3], q[i + k]); } });
+    list.forEach(P => { const q = P.q; if (q) for (let i = 0; i < q.length; i += 3) for (let k = 0; k < 3; k++) { t[k] = Math.min(t[k], q[i + k]); t[k + 3] = Math.max(t[k + 3], q[i + k]); } });
     target.set((t[0] + t[3]) / 2, (t[1] + t[4]) / 2, (t[2] + t[5]) / 2);
   }
 
   function fit() {
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
-    const m = cam.matrixWorldInverse.elements, e = S.e;
+    const m = cam.matrixWorldInverse.elements;
     list.forEach(P => {
-      const q0 = P.q0, q1 = P.q1;
-      if (!q0 || !q0.length || !P.body.visible) return;
-      for (let i = 0; i < q0.length; i += 3) {
-        const x = q0[i] + (q1[i] - q0[i]) * e, y = q0[i + 1] + (q1[i + 1] - q0[i + 1]) * e, z = q0[i + 2] + (q1[i + 2] - q0[i + 2]) * e;
+      const q = P.q;
+      if (!q || !q.length || !P.body.visible) return;
+      for (let i = 0; i < q.length; i += 3) {
+        const x = q[i], y = q[i + 1], z = q[i + 2];
         const u = m[0] * x + m[4] * y + m[8] * z + m[12], v = m[1] * x + m[5] * y + m[9] * z + m[13];
         if (u < x0) x0 = u; if (u > x1) x1 = u; if (v < y0) y0 = v; if (v > y1) y1 = v;
       }
@@ -305,12 +325,7 @@ export function mount(host, def) {
     dir.set(Math.sin(ar) * Math.cos(er), Math.sin(er), Math.cos(ar) * Math.cos(er));
     cam.position.copy(target).addScaledVector(dir, 4000); cam.up.set(0, 1, 0); cam.lookAt(target); cam.updateMatrixWorld();
     vw.copy(dir).negate();
-    list.forEach(P => P.root.position.set(P.ex[0] * S.e, P.ex[1] * S.e, P.ex[2] * S.e));
     def.pose(S.a, H, S);
-    plane.constant = S.cut >= 1 ? 1000 : S.cut * 320;
-    const ca = clamp(1 - plane.constant / 30, 0, 1);
-    list.forEach(P => { P.cuts.forEach(o => { o.visible = ca > 0.01 && P.body.visible; }); (P.cutMats || []).forEach(m => { m[0].opacity = m[1] * ca; }); });
-    mCutLine.opacity = ca;
     scene.updateMatrixWorld(true);
     list.forEach(P => { if (P.dash) P.dash.visible = S.hid > 0.5 && P.pd.hidden !== false; updateLines(P); });
     fit();
@@ -368,15 +383,10 @@ export function mount(host, def) {
     b.addEventListener('click', fn); return b;
   };
   const vb = {}, grp = document.createElement('div'); grp.className = 'tg3';
-  [['iso', 'Isometrica'], ['pianta', 'Pianta'], ['fianco', 'Fianco']].forEach(v => { vb[v[0]] = mkBtn(v[1], () => setView(v[0], true)); grp.appendChild(vb[v[0]]); });
-  vb.iso.classList.add('on');
-  const bSec = mkBtn('Sezione', () => { const on = bSec.getAttribute('aria-pressed') !== 'true'; bSec.setAttribute('aria-pressed', on); bSec.classList.toggle('on', on); go('cut', on ? 0 : 1, 900); }, true);
+  [['iso', 'Isometrica'], ['pianta', 'Pianta'], ['fianco', 'Fianco'], ['fronte', 'Fronte']].filter(v => (def.buttons || ['iso', 'pianta', 'fianco']).indexOf(v[0]) >= 0).forEach(v => { vb[v[0]] = mkBtn(v[1], () => setView(v[0], true)); grp.appendChild(vb[v[0]]); });
+  if (vb[def.view || 'iso']) vb[def.view || 'iso'].classList.add('on');
   const bHid = mkBtn('Linee nascoste', () => { const on = bHid.getAttribute('aria-pressed') !== 'true'; bHid.setAttribute('aria-pressed', on); bHid.classList.toggle('on', on); S.hid = on ? 1 : 0; dirty = true; request(); }, true);
-  const lab = document.createElement('label'); lab.textContent = 'Esploso';
-  const rng = document.createElement('input'); rng.type = 'range'; rng.min = 0; rng.max = 100; rng.value = 0; rng.setAttribute('aria-label', 'Esploso: separazione dei componenti');
-  rng.addEventListener('input', () => { delete tw.e; S.e = rng.value / 100; dirty = true; request(); });
-  lab.appendChild(rng);
-  bar.append(grp, bSec, bHid, lab);
+  bar.append(grp, bHid);
   host.parentNode.insertBefore(bar, host.nextSibling);
 
   function setView(name, animate) {
@@ -398,13 +408,10 @@ export function mount(host, def) {
   if (window.matchMedia) { const mq = window.matchMedia('(prefers-color-scheme: dark)'); if (mq.addEventListener) mq.addEventListener('change', theme); }
 
   boxes(); theme(); resize();
-  if (def.start && def.start.section) bSec.click();
 
   return {
     set(a) { S.a = a; dirty = true; request(); },
     setView, state: S,
-    setExplode(v) { go('e', v, 700); rng.value = v * 100; },
-    setSection(on) { go('cut', on ? 0 : 1, 900); },
     invalidate() { dirty = true; request(); }
   };
 }

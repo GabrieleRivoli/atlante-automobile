@@ -48,11 +48,6 @@ export function build(T) {
     T.tube({ ro: WALL, ri: BORE + 0.5, l: 285, axis: 'x', at: [-237.5, 0, 0] }),
     T.tube({ ro: JACK, ri: WALL, l: 270, axis: 'x', at: [-240, 0, 0] })
   ]);
-  const cuts = [];
-  [1, -1].forEach(s => {
-    cuts.push({ r: [XH, s > 0 ? BORE + 0.5 : -WALL, -95, s > 0 ? WALL : -(BORE + 0.5)], k: 1 });
-    cuts.push({ r: [-375, s > 0 ? WALL : -JACK, -105, s > 0 ? JACK : -WALL], k: 0.45 });
-  });
 
   /* testata con cupolino della valvola, sede dell'aspirazione, montante del bilanciere */
   const testata = T.merge([
@@ -92,23 +87,22 @@ export function build(T) {
     label: 'Modello 3D del motore del Benz Patent-Motorwagen, in proiezione ortogonale',
     a0: 100,
     views: { iso: { az: -34, el: 27 } },
-    start: { section: true },
     parts: [
-      { id: 'volano', g: volano, explode: [0, 230, 0], cutFixed: true, cuts: [{ r: [230, 83, 250, 117], k: 1 }, { r: [-250, 83, -230, 117], k: 1 }, { r: [18, 78, 38, 122], k: 1 }, { r: [-38, 78, -18, 122], k: 1 }] },
-      { id: 'segno', g: segno, accent: true, tint: 0.3, explode: [0, 230, 0], hidden: false },
-      { id: 'albero', g: albero, explode: [0, -150, 0], cutFixed: true, cuts: [{ r: [-18, -110, 18, 150], k: 1 }] },
-      { id: 'biella', g: biella, explode: [90, -90, 0] },
-      { id: 'pistone', g: pistone, accent: true, tint: 0.10, explode: [170, 0, 0], cuts: [{ r: [-40, 38, 55, 44], k: 1 }, { r: [-40, -44, 55, -38], k: 1 }, { r: [-40, -38, -30, 38], k: 1 }] },
-      { id: 'cilindro', g: cilindro, cuts: cuts },
-      { id: 'testata', g: testata, explode: [-110, 0, 0], cuts: [{ r: [XH - 22, -JACK, XH, JACK], k: 1 }] },
-      { id: 'candela', g: candela, explode: [-190, 0, 0] },
-      { id: 'valvola', g: valvola, accent: true, tint: 0.12, explode: [0, 120, 0] },
-      { id: 'molla', g: molla, explode: [0, 95, 0] },
-      { id: 'bilanciere', g: bilanciere, explode: [0, 190, 0] },
-      { id: 'asta', g: asta, explode: [0, -70, 0] },
-      { id: 'camma', g: camma, explode: [0, -180, 0] },
-      { id: 'scorrevole', g: scorrevole, accent: true, tint: 0.12, explode: [0, 0, -90] },
-      { id: 'condotto', g: condotto, explode: [0, 0, -150] },
+      { id: 'volano', g: volano },
+      { id: 'segno', g: segno, accent: true, tint: 0.3, hidden: false },
+      { id: 'albero', g: albero },
+      { id: 'biella', g: biella },
+      { id: 'pistone', g: pistone, accent: true, tint: 0.10 },
+      { id: 'cilindro', g: cilindro, ghost: true },
+      { id: 'testata', g: testata },
+      { id: 'candela', g: candela },
+      { id: 'valvola', g: valvola, accent: true, tint: 0.12 },
+      { id: 'molla', g: molla },
+      { id: 'bilanciere', g: bilanciere },
+      { id: 'asta', g: asta },
+      { id: 'camma', g: camma },
+      { id: 'scorrevole', g: scorrevole, accent: true, tint: 0.12 },
+      { id: 'condotto', g: condotto },
       { id: 'gas', g: gas, vol: true, nobox: true },
       { id: 'scintilla', g: scintilla, accent: true, nobox: true }
     ],
@@ -137,10 +131,9 @@ export function build(T) {
       const ph = Math.floor((a % 720) / 180), f = (a % 180) / 180;
       let op, role = 'accent';
       if (ph === 0) op = 0.08 + 0.14 * f; else if (ph === 1) op = 0.22 + 0.4 * f; else if (ph === 2) op = 0.8 - 0.45 * f; else { role = 'muted'; op = 0.35 - 0.2 * f; }
-      const hide = S.e > 0.02;
-      H.gas.pos.x = XH; H.gas.scl.x = xp + 340; H.gas.role(role); H.gas.alpha(hide ? 0 : op * 0.6);
+      H.gas.pos.x = XH; H.gas.scl.x = xp + 340; H.gas.role(role); H.gas.alpha(op * 0.6);
       const sa = (a % 720) - 352;
-      H.scintilla.alpha(hide ? 0 : (sa >= 0 && sa < 40 ? 1 - sa / 40 : 0));
+      H.scintilla.alpha((sa >= 0 && sa < 40 ? 1 - sa / 40 : 0));
     }
   };
   function smooth(x) { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); }

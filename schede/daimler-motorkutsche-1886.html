@@ -19,7 +19,7 @@
   <h1 class="title">Daimler<br>Motorkutsche</h1>
   <p class="stand">Non un veicolo nuovo, ma un motore nuovo su una carrozza qualsiasi. Il motore piccolo e veloce di Daimler e Maybach, provato su quattro ruote nel 1886.</p>
   <nav class="toc" aria-label="In questa scheda">
-    <button data-go="progettisti">Progettisti</button><button data-go="idea">L'idea</button><button data-go="motore">Motore</button><button data-go="accensione">Accensione</button><button data-go="trasmissione">Trasmissione</button><button data-go="sterzo">Sterzo</button><button data-go="confronto">Confronto</button>
+    <button data-go="progettisti">Progettisti</button><button data-go="dimensioni">Dimensioni</button><button data-go="idea">L'idea</button><button data-go="motore">Motore</button><button data-go="accensione">Accensione</button><button data-go="trasmissione">Trasmissione</button><button data-go="sterzo">Sterzo</button><button data-go="confronto">Confronto</button>
   </nav>
 
   <figure class="fig">
@@ -96,6 +96,18 @@
     </div>
   </div>
 
+  <div class="sec" id="dimensioni">
+    <h2 class="lab">Dimensioni</h2>
+    <div class="bd">
+      <p class="k">Una carrozza da quattro posti, non un'automobile disegnata da zero.</p>
+      <p>Il passo è di circa 1.300 mm. Accanto alla carrozza c'è una figura di 1,75 m. Trascina per ruotare, doppio clic per tornare alla vista isometrica. Il motore verticale, alto e stretto, è il motivo del soprannome Standuhr.</p>
+      <figure class="fig">
+        <div id="veh3d" class="v3d" hidden></div>
+        <figcaption id="capv"><b>Fig. 2</b>Modello 3D molto semplificato, solo per le proporzioni: cassa, sedili e motore sono abbozzi.</figcaption>
+      </figure>
+    </div>
+  </div>
+
   <div class="sec" id="idea">
     <h2 class="lab">L'idea</h2>
     <div class="bd">
@@ -122,6 +134,7 @@
       <p>La scintilla non si può comandare: il momento dell'accensione dipende dalla lunghezza del tubo, dalla sua temperatura e dal regime. È un limite serio. Se il gas si accende troppo presto, la spinta contrasta il pistone ancora in salita, e all'avviamento a mano può dare un ritorno violento (la fonte kfz-tech parla di accensione prima del punto morto superiore e di colpi di ritorno). Per l'epoca è però semplice, robusta e senza elettricità. Nel Reitwagen la fiamma stava sotto il sedile, che infatti prese fuoco durante la prima corsa.</p>
 
       <figure class="fig">
+        <div id="gt3d" class="v3d" hidden></div>
         <svg id="gt" viewBox="0 0 480 260" role="img" aria-label="Schema animato dell'accensione a tubo incandescente: il pistone sale e spinge la miscela nel tubo caldo">
           <rect id="gtgas" class="fa" x="171" y="70" width="98" height="120" style="fill-opacity:.12"/>
           <path class="ln th" d="M170 60 V250 M270 60 V250"/>
@@ -146,7 +159,7 @@
           <output id="gtout" for="gtsl">0 %</output>
         </div>
         <p class="phase"><b id="gtn">Aspirazione.</b><span id="gtd">Il cilindro è pieno di miscela fresca. Muovi il cursore verso destra per comprimerla.</span></p>
-        <figcaption><b>Fig. 2</b>Principio dell'accensione a tubo incandescente, non in scala. Il pistone sale verso la testa; a fine corsa la miscela entra nel tubo caldo e si accende.</figcaption>
+        <figcaption id="capg"><b>Fig. 3</b>Principio dell'accensione a tubo incandescente, non in scala. Il pistone sale verso la testa; a fine corsa la miscela entra nel tubo caldo e si accende.</figcaption>
       </figure>
     </div>
   </div>
@@ -167,7 +180,8 @@
       <p>Lo sterzo è quello delle carrozze: la <a class="ref" data-ref="sterzo-a-ralla">ralla, o quinta ruota</a>. L'intero avantreno, asse e ruote, pivota attorno a un perno centrale. Con una leva dalla cassa si fa ruotare l'asse; le ruote restano perpendicolari all'asse e puntano dove punta l'asse. È una costruzione economica e già collaudata sulle carrozze, ma limita l'angolo di sterzata e sposta l'appoggio delle ruote quando si curva. Le soluzioni con ogni ruota su un fuso a snodo, come lo schema attribuito ad Ackermann (1818), si diffondono con le auto successive.</p>
 
       <figure class="fig">
-        <svg viewBox="0 0 480 240" role="img" aria-label="Schema in pianta dello sterzo a ralla: l'asse anteriore ruota intorno a un perno centrale">
+        <div id="st3d" class="v3d" hidden></div>
+        <svg id="stsvg" viewBox="0 0 480 240" role="img" aria-label="Schema in pianta dello sterzo a ralla: l'asse anteriore ruota intorno a un perno centrale">
           <text class="mu" x="12" y="18">VISTA DALL'ALTO · ANTERIORE A SINISTRA</text>
           <rect class="ln fp" x="120" y="82" width="270" height="76" rx="3"/>
           <text class="mu" x="300" y="124" text-anchor="middle">telaio</text>
@@ -189,7 +203,7 @@
           <input id="stsl" type="range" min="-30" max="30" value="0" aria-label="Angolo di sterzata, da meno 30 a più 30 gradi">
           <output id="stout" for="stsl">0°</output>
         </div>
-        <figcaption><b>Fig. 3</b>Sterzo a ralla in pianta, non in scala. Le due ruote anteriori ruotano insieme all'asse.</figcaption>
+        <figcaption id="caps"><b>Fig. 4</b>Sterzo a ralla in pianta, non in scala. Le due ruote anteriori ruotano insieme all'asse.</figcaption>
       </figure>
     </div>
   </div>
@@ -232,7 +246,7 @@
         <li>Mercedes-Benz Group, storia 1886–1920: contesto del 1885–1886.</li>
         <li><a href="https://en.wikipedia.org/wiki/Daimler_Reitwagen" target="_blank" rel="noopener">Wikipedia, Daimler Reitwagen</a>: dati del 1885.</li>
       </ol>
-      <p class="note">Lacune: le fonti divergono su potenza (1,1 PS o 1,1 kW), velocità (18 o 23 km/h) e raffreddamento (ad aria o ad acqua). Non ho trovato la data della prima corsa. Non sono riuscito a verificare rapporti della cinghia, peso a vuoto da fonte ufficiale e dettagli del carburatore. Le immagini sono disegni schematici, non ricostruzioni; nella figura 1 il motore è collocato sotto il sedile posteriore in modo indicativo. Il carburatore a spruzzo di Maybach (1893) e lo schema di Ackermann (1818) sono dati di conoscenza generale, non verificati su queste fonti.</p>
+      <p class="note">Lacune: le fonti divergono su potenza (1,1 PS o 1,1 kW), velocità (18 o 23 km/h) e raffreddamento (ad aria o ad acqua). Non ho trovato la data della prima corsa. Non sono riuscito a verificare rapporti della cinghia, peso a vuoto da fonte ufficiale e dettagli del carburatore. Le immagini sono disegni schematici, non ricostruzioni; nella figura 1 il motore è collocato sotto il sedile posteriore in modo indicativo. Nei modelli 3D (sagoma, tubo incandescente, sterzo) i diametri delle ruote, la cassa, i sedili, la posizione del motore, forma e posizione del tubo e del bruciatore e le misure dello sterzo sono stime indicative; solo passo, alesaggio e corsa vengono da fonti. Se il 3D non si carica restano i disegni 2D. Il carburatore a spruzzo di Maybach (1893) e lo schema di Ackermann (1818) sono dati di conoscenza generale, non verificati su queste fonti.</p>
     </div>
   </div>
 
@@ -253,7 +267,7 @@
   /* accensione a tubo incandescente */
   var pis=$('gtpis'),gas=$('gtgas'),tube=$('gttube'),fl=$('gtflash');
   var sl=$('gtsl'),out=$('gtout'),pb=$('gtplay'),nm=$('gtn'),ds=$('gtd');
-  var p=0,dir=1,playing=false,last=0,vis=true;
+  var p=0,dir=1,playing=false,last=0,vis=true,v3=null;
   function drawG(){
     var y=150-p*0.8;            /* il pistone sale da 150 a 70 */
     pis.setAttribute('transform','translate(0 '+y.toFixed(1)+')');
@@ -262,7 +276,7 @@
     var op=.12+.55*(p/100);gas.style.fillOpacity=op.toFixed(2);
     tube.style.fillOpacity=p>=88?Math.min(1,(p-88)/10).toFixed(2):0;
     fl.style.opacity=p>=96?1:0;
-    sl.value=Math.round(p);out.textContent=Math.round(p)+' %';
+    if(v3){v3.set(p);}sl.value=Math.round(p);out.textContent=Math.round(p)+' %';
     if(p<8){nm.textContent='Aspirazione.';ds.textContent='Il cilindro è pieno di miscela fresca. Muovi il cursore verso destra per comprimerla.';}
     else if(p<88){nm.textContent='Compressione.';ds.textContent='Il pistone sale e la miscela si addensa verso la testa. Nel tubo caldo non è ancora entrata.';}
     else if(p<96){nm.textContent='Ingresso nel tubo.';ds.textContent='La pressione spinge una parte del gas dentro il tubo, a contatto con la parete rovente.';}
@@ -277,12 +291,22 @@
   sl.addEventListener('input',function(){setPlay(false);p=+sl.value;drawG();});
   setPlay(!reduce);if(reduce){p=0;}
   drawG();requestAnimationFrame(loopG);
-  if('IntersectionObserver' in window){new IntersectionObserver(function(en){vis=en[0].isIntersecting;}).observe($('gt'));}
+  if('IntersectionObserver' in window){new IntersectionObserver(function(en){vis=en[0].isIntersecting;}).observe($('gt3d').closest('figure'));}
 
   /* sterzo a ralla */
   var st=$('st'),ssl=$('stsl'),sout=$('stout');
-  function drawS(){var a=+ssl.value;st.setAttribute('transform','rotate('+a+' 160 120)');sout.textContent=a+'°';}
+  var vs=null;
+  function drawS(){var a=+ssl.value;st.setAttribute('transform','rotate('+a+' 160 120)');if(vs){vs.set(a);}sout.textContent=a+'°';}
   ssl.addEventListener('input',drawS);drawS();
+
+  /* modelli 3D: si caricano quando la figura sta per entrare in vista; se falliscono restano i disegni 2D */
+  ATLANTE.fig3d({host:$('veh3d'),def:'./daimler-motorkutsche-1886.veicolo.3d.js',cap:$('capv'),capHtml:"<b>Fig. 2</b>Modello 3D molto semplificato, solo per le proporzioni, in proiezione ortogonale. Il passo (circa 1.300 mm) viene da Wikipedia; diametri delle ruote, cassa, sedili, posizione e altezza del motore e leva dello sterzo sono stime indicative. La figura umana è alta 1,75 m."});
+  ATLANTE.fig3d({host:$('gt3d'),svg:$('gt'),def:'./daimler-motorkutsche-1886.tubo.3d.js',cap:$('capg'),
+    capHtml:"<b>Fig. 3</b>Modello 3D dell'accensione a tubo incandescente, in proiezione ortogonale. Alesaggio (70 mm) e corsa (120 mm) sono quelli dichiarati dalle fonti; forma e posizione del tubo, bruciatore e testa sono ricostruzioni indicative. In colore: gas compresso, tubo e fiamma.",
+    ready:function(v){v3=v;drawG();}});
+  ATLANTE.fig3d({host:$('st3d'),svg:$('stsvg'),def:'./daimler-motorkutsche-1886.sterzo.3d.js',cap:$('caps'),
+    capHtml:"<b>Fig. 4</b>Modello 3D dello sterzo a ralla, in proiezione ortogonale: l'intero avantreno ruota attorno al perno centrale, ruote e asse insieme. Dimensioni indicative; solo il passo viene da fonte.",
+    ready:function(v){vs=v;drawS();}});
 })();
 </script>
 </body>
