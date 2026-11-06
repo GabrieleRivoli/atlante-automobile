@@ -100,7 +100,7 @@
     <h2 class="lab">Motore</h2>
     <div class="bd">
       <p class="k">954 cm³ che producono lavoro una volta ogni quattro tempi.</p>
-      <p>Il ciclo a quattro tempi è quello che <a class="ref" data-ref="nikolaus-otto">Nikolaus Otto</a> aveva reso praticabile nel 1876 per i motori fissi. Benz lo porta su un veicolo con un cilindro orizzontale, un albero motore verticale e un volano orizzontale. Alesaggio 90 mm e corsa 150 mm danno 954 cm³. Lo schema sotto è animato: trascina il cursore o scegli un tempo.</p>
+      <p>Il ciclo a quattro tempi è quello che <a class="ref" data-ref="nikolaus-otto">Nikolaus Otto</a> aveva reso praticabile nel 1876 per i motori fissi. Benz lo porta su un veicolo con un cilindro orizzontale, un albero motore verticale e un volano orizzontale. Alesaggio 90 mm e corsa 150 mm danno 954 cm³. Lo schema sotto è animato: il cursore e i pulsanti dei tempi comandano il ciclo. Dove il browser lo permette il motore è un modello 3D in proiezione ortogonale: trascina per ruotarlo, scegli Pianta o Fianco, apri la sezione o separa i componenti con l'esploso.</p>
       <p class="note"><a class="ref" data-ref="ciclo-quattro-tempi">Il ciclo a quattro tempi</a> avrà una scheda propria.</p>
 
       <figure class="fig">
@@ -123,6 +123,7 @@
           <circle class="fi" cx="360" cy="130" r="4"/>
           <text class="mu" x="360" y="214" text-anchor="middle">VOLANO E MANOVELLA</text>
         </svg>
+        <div id="eng3d" class="v3d" hidden></div>
         <div class="ctl">
           <button class="btn" id="play" type="button">Pausa</button>
           <input id="ang" type="range" min="0" max="719" value="0" aria-label="Angolo dell'albero motore, da 0 a 720 gradi">
@@ -132,7 +133,7 @@
           <button type="button" data-ph="0">1 Aspirazione</button><button type="button" data-ph="1">2 Compressione</button><button type="button" data-ph="2">3 Scoppio</button><button type="button" data-ph="3">4 Scarico</button>
         </div>
         <p class="phase"><b id="phn"></b><span id="phd"></span></p>
-        <figcaption><b>Fig. 2</b>Un ciclo completo richiede due giri dell'albero (720°). Proporzioni di biella e valvole indicative; la corsa reale è di 150 mm.</figcaption>
+        <figcaption id="cap2"><b>Fig. 2</b>Un ciclo completo richiede due giri dell'albero (720°). Proporzioni di biella e valvole indicative; la corsa reale è di 150 mm.</figcaption>
       </figure>
 
       <p>La valvola di scarico è a fungo, comandata da un'asta; sul Model 2 l'aspirazione è una valvola a cassetto. Con un solo cilindro, un tempo su quattro produce lavoro: il volano accumula energia e la restituisce nei tre tempi passivi. A 250–400 giri/min significa circa due o tre scoppi al secondo.</p>
@@ -315,7 +316,7 @@
         <li><a href="https://en.wikipedia.org/wiki/Benz_Patent-Motorwagen" target="_blank" rel="noopener">Wikipedia, Benz Patent-Motorwagen</a>: dati tecnici, brevetti, evoluzione dei modelli.</li>
         <li><a href="https://qm.org.qa/en/stories/all-stories/bertha-benz-and-the-patent-motorwagen/" target="_blank" rel="noopener">Qatar Museums, Bertha Benz and the Patent-Motorwagen</a>: viaggio del 1888.</li>
       </ol>
-      <p class="note">Lacune: le fonti divergono su regime di potenza (250 o 400 giri/min), velocità massima (16 o 20 km/h), peso (340 o 360 kg) e modello usato nel viaggio (Nr. 3 secondo Qatar Museums). Non ho ancora controllato l'archivio ufficiale Mercedes-Benz Classic. Le immagini sono disegni schematici, non fotografie.</p>
+      <p class="note">Lacune: le fonti divergono su regime di potenza (250 o 400 giri/min), velocità massima (16 o 20 km/h), peso (340 o 360 kg) e modello usato nel viaggio (Nr. 3 secondo Qatar Museums). Non ho ancora controllato l'archivio ufficiale Mercedes-Benz Classic. Le immagini sono disegni schematici, non fotografie. Nel modello 3D del motore la disposizione della distribuzione (bilanciere, asta, camma) e le proporzioni di biella, camera di scoppio e volano non sono verificate su fonti: sono una ricostruzione plausibile.</p>
     </div>
   </div>
 
@@ -340,6 +341,7 @@
   var $=function(i){return document.getElementById(i);};
   var gas=$('gas'),pis=$('pis'),rod=$('rod'),crank=$('crank'),cp=$('cp'),fw=$('fw'),vIn=$('vIn'),vEx=$('vEx'),spark=$('spark');
   var sl=$('ang'),out=$('angout'),pb=$('play'),phn=$('phn'),phd=$('phd'),btns=[].slice.call(document.querySelectorAll('[data-ph]'));
+  var view3d=null;
   var a=0,playing=!window.matchMedia('(prefers-reduced-motion: reduce)').matches,last=0,vis=true;
   if(!playing){a=100;}
   function draw(){
@@ -358,6 +360,7 @@
     vEx.style.transform=ph===3?'translate(-8px,0)':'none';
     var sa=a-352;spark.style.opacity=(sa>=0&&sa<40)?(1-sa/40):0;
     sl.value=Math.round(a)%720;out.textContent=Math.round(a)%720+'°';
+    if(view3d){view3d.set(a);}
     phn.textContent=PH[ph]+'.';phd.textContent=D[ph];
     btns.forEach(function(b,i){var on=i===ph;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
   }
@@ -370,7 +373,20 @@
   sl.addEventListener('input',function(){setPlay(false);a=+sl.value;draw();});
   btns.forEach(function(b,i){b.addEventListener('click',function(){setPlay(false);a=i*180+2;draw();});});
   setPlay(playing);draw();requestAnimationFrame(loop);
-  if('IntersectionObserver' in window){new IntersectionObserver(function(en){vis=en[0].isIntersecting;}).observe($('eng'));}
+  var fig=$('eng').parentNode;
+  if('IntersectionObserver' in window){new IntersectionObserver(function(en){vis=en[0].isIntersecting;}).observe(fig);}
+  /* modello 3D: si carica solo quando la figura sta per entrare in vista; se fallisce resta il disegno 2D */
+  function boot3d(){
+    var host=$('eng3d'),svg=$('eng');
+    Promise.all([import('../assets/tecnico3d.js'),import('./benz-patent-motorwagen-1886.3d.js')]).then(function(m){
+      host.hidden=false;
+      try{view3d=m[0].mount(host,m[1].build(m[0]));}catch(e){host.hidden=true;view3d=null;return;}
+      svg.style.display='none';
+      $('cap2').innerHTML="<b>Fig. 2</b>Modello 3D semplificato in proiezione ortogonale, non in scala: solo spigoli e contorni, linee nascoste tratteggiate. Volano orizzontale, albero motore verticale, cilindro orizzontale con la testata a sinistra. Un ciclo completo richiede due giri dell'albero (720°). Alesaggio e corsa (90 e 150 mm) sono quelli dichiarati; lunghezza di biella, volume della camera, diametro del volano e distribuzione (bilanciere, asta e camma a metà giri, il cui azionamento non è disegnato) sono ricostruiti in modo indicativo.";
+      draw();
+    }).catch(function(){});
+  }
+  if('IntersectionObserver' in window){var io3=new IntersectionObserver(function(en){if(en[0].isIntersecting){io3.disconnect();boot3d();}},{rootMargin:'400px'});io3.observe(fig);}else{boot3d();}
 })();
 </script>
 </body>

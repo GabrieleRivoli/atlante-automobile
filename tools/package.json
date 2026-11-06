@@ -1,0 +1,12 @@
+{
+  "name": "atlante-tools",
+  "private": true,
+  "description": "Build del modulo 3D (assets/tecnico3d.js). Il sito non ha altri passaggi di build.",
+  "scripts": {
+    "build": "esbuild src/tecnico3d.src.js --bundle --minify --format=esm --target=es2019 --legal-comments=none --outfile=../assets/tecnico3d.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "three": "0.187.0"
+  }
+}
