@@ -3,14 +3,20 @@
 Fonte di verità: questo repo (branch main). Online: https://atlante-automobile.pages.dev (Cloudflare Pages). Backup: Dropbox /StoriaDellAutomobile (solo file nuovi delle schede).
 
 ## Pubblicate
-- 001 Benz Patent-Motorwagen (1886), 29 ottobre 2026
-- 002 Daimler Motorkutsche (1886), 2 novembre 2026. Aggiunte al registro: wilhelm-maybach, accensione-tubo-incandescente, sterzo-a-ralla, motore-standuhr. Lacune dichiarate: potenza (1,1 PS o kW), velocità (18/23 km/h), raffreddamento, rapporti cinghia, data prima corsa.
+- 001 Benz Patent-Motorwagen (1886), 29 ottobre 2026. Testi riscritti il 7 novembre 2026 (registro editoriale, fonti verificate: passo 1.450 o 1.575 mm, viaggio del 1888 attribuito a Qatar Museums)
+- 002 Daimler Motorkutsche (1886), 2 novembre 2026, testi riscritti il 7 novembre 2026 (tolti o attribuiti: regalo per Emma, sedile del Reitwagen, rotaie e aeronavi; potenza 1,1 PS = 0,82 kW). Aggiunte al registro: wilhelm-maybach, accensione-tubo-incandescente, sterzo-a-ralla, motore-standuhr. Lacune dichiarate: potenza (1,1 PS o kW), velocità (18/23 km/h), raffreddamento, rapporti cinghia, data prima corsa.
 
 ## Prossime
 Daimler Reitwagen (1885), Panhard & Levassor (1891), Duryea Motor Wagon (1893), Mercedes 35 PS (1901), Oldsmobile Curved Dash (1901), Ford Model T (1908), Lancia Lambda (1922), Citroën Traction Avant (1934), Volkswagen Typ 1 (1938), Austin Mini (1959).
 
 ## Procedura
 Vedi il documento di progetto claude/stato-atlante.md: nuova scheda = schede/<slug>.html + schede/<slug>.js, commit su main, verifica online con fetch.
+
+## Regole editoriali dei testi (7 novembre 2026)
+- Registro da rivista di design, impersonale. Nei testi della scheda mai la prima persona singolare ("ho trovato", "non ho verificato") né l'imperativo rivolto al lettore ("Trascina"): si scrive "si ruota trascinando".
+- Ogni dato porta la sua fonte, in breve tra parentesi nel testo. Dove la fonte manca va detto, con la formula adatta al caso e senza ricopiare sempre la stessa: lacuna ("non risultano fonti affidabili"), stima ("valore stimato, le fonti divergono"), divergenza ("X per A, Y per B"), tradizione ("secondo un aneddoto diffuso, non confermato dalle fonti elencate").
+- In "Fonti e lacune": paragrafo "Lacune e divergenze" con i dati discordanti, le stime dei modelli 3D e l'elenco "Restano da verificare" per ciò che è conoscenza generale e non figura nelle fonti elencate.
+- Ogni cifra va riletta su una fonte aperta durante la sessione (fetch), non ricordata. Un "primo" (primo veicolo, prima stazione di servizio) si attribuisce a chi lo afferma.
 
 ## Disegni tecnici 3D (6 novembre 2026)
 - Modulo `assets/tecnico3d.js` (568 KB, Three.js incluso, file generato). Sorgente in `tools/src/tecnico3d.src.js`. Si rigenera solo se si tocca il sorgente: `cd tools && npm install && npm run build`.
