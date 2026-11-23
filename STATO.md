@@ -13,6 +13,12 @@ Fonte di verità: questo repo (branch main). Online: https://atlante-automobile.
 ## Prossime
 Oldsmobile Curved Dash (1901), Ford Model T (1908), Lancia Lambda (1922), Citroën Traction Avant (1934), Volkswagen Typ 1 (1938), Austin Mini (1959).
 
+## Fig. 1 = blueprint laterale (23 novembre 2026)
+- Richiesta di Gabri: il disegno in testa a ogni scheda è un blueprint con la sagoma più fedele possibile, vista laterale sola, poco dettagliata; dove la sagoma non è affidabile va detto.
+- Generatore: `python3 tools/blueprint.py [slug]` (SVG statico, mm, avanti a destra, suolo y=0, asse posteriore x=0). Per una nuova scheda: aggiungere una voce a `SPECS` (ruote, sagoma a path in mm, quote, callout numerati della legenda, `cap` per la didascalia, `gap` per "Lacune e divergenze") e lanciare lo script: sostituisce la Fig. 1 e la didascalia e inserisce la frase nel paragrafo Lacune. Stili in fondo a `assets/style.css` (blocco "blueprint").
+- Regole: quote piene solo da fonte (le stesse della scheda tecnica); stime con "≈" e linea tratteggiata; mai quotare un dato che il profilo disegnato non rispetta (es. lunghezza Mercedes 2.766 mm, incoerente con passo e ruote). Cartiglio: "Profilo ricostruito" oppure "Proporzioni stimate" (nessuna misura da fonte). Limite dichiarato: senza tavole o rilievi riletti il profilo è ricostruzione indicativa, non una sagoma esatta.
+- Fedeltà per scheda: 006 Mercedes (passo, altezza, ruote da fonte), 003 Reitwagen (passo, ruote, altezza da fonte), 001 Benz (passo e ruote posteriori), 002 Motorkutsche (solo passo), 005 Duryea (solo ruote posteriori), 004 Panhard (nessuna misura).
+
 ## Procedura
 Vedi il documento di progetto claude/stato-atlante.md: nuova scheda = schede/<slug>.html + schede/<slug>.js, commit su main, verifica online con fetch.
 

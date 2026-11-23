@@ -187,3 +187,24 @@ svg .cot{fill:var(--bg);font-weight:500;text-anchor:middle;dominant-baseline:cen
 @keyframes rise{0%{transform:translateY(0);opacity:0}20%{opacity:.9}100%{transform:translateY(-26px);opacity:0}}
 @keyframes rise2{0%{transform:translateY(0);opacity:0}25%{opacity:.8}100%{transform:translateY(-14px);opacity:0}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* blueprint (Fig. 1 delle schede): carta blu, linee chiare, griglia a 100 mm / 500 mm */
+.bg{fill:#2338B8}
+.gn{fill:none;stroke:#fff;stroke-opacity:.11;stroke-width:1}
+.gj{fill:none;stroke:#fff;stroke-opacity:.26;stroke-width:1}
+.bl{fill:none;stroke:#EAF0FF;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.bl.f{fill:#EAF0FF;fill-opacity:.07}
+.bl.k{stroke-width:3}
+.bl.th,.bl.t{stroke-width:.8}
+.bl.d{stroke-width:1;stroke-dasharray:5 4}
+.bl.gr{stroke-width:2}
+.dq{fill:none;stroke:#EAF0FF;stroke-width:.8;stroke-opacity:.85}
+.dq.de{stroke-dasharray:3 3}
+.da{fill:#EAF0FF}
+svg text.bt{fill:#EAF0FF;font-size:10.5px;letter-spacing:.05em}
+svg text.tt{font-weight:500}
+.tb{stroke-opacity:.4}
+.ld{fill:none;stroke:#EAF0FF;stroke-width:1}
+.ldot{fill:#EAF0FF}
+.cb{fill:#EAF0FF}
+svg text.cn{fill:#1B2A9A;font-size:11px;font-weight:600}
