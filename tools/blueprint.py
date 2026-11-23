@@ -57,7 +57,7 @@ SPECS['mercedes-35-ps-1901'] = dict(
     calls=[(1, (2500, 1100), (22, -52)), (2, (2050, 1040), (0, -58)), (3, (1100, 620), (0, 56)), (4, (1450, 1040), (-10, -72)),
            (5, (1210, 900), (-56, -56)), (6, (330, 560), (0, 62)), (7, (200, 1050), (0, -72))],
     note='Profilo ricostruito',
-    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Da fonte (Wikipedia): passo 2.345 mm, altezza 1.300 mm, diametri delle ruote 910 e 1.020 mm. Forma di cassa, cofano, parafanghi, sedili e piantone ricostruita, indicativa e non rilevata sull\'esemplare; stessi dati della sagoma 3D della Fig. 2.',
+    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Misure da fonte (Wikipedia): passo 2.345 mm, altezza 1.300 mm, ruote da 910 e 1.020 mm; il resto del profilo è ricostruito.',
     gap='Il disegno della Fig. 1 usa passo, altezza e diametri delle ruote di fonte; la forma di cassa, cofano, parafanghi, sedili, piantone e cambio è una ricostruzione, senza rilievo o tavola di riferimento riletti durante la sessione. La lunghezza di 2.766 mm riportata da Wikipedia non è disegnata come quota: con passo di 2.345 mm e ruote da 910 e 1.020 mm l\'ingombro minimo supera i 3.300 mm, e la divergenza non è risolta (si può trattare di una misura del solo telaio con radiatore).',
 )
 
@@ -79,7 +79,7 @@ SPECS['benz-patent-motorwagen-1886'] = dict(
     calls=[(1, (-120, 560), (-34, 74)), (2, (-400, 564), (-50, 62)), (3, (-430, 790), (-30, -60)), (4, (1445, 1000), (40, -34)),
            (5, (1704, 106), (38, 34)), (6, (-445, 185), (-34, 36)), (7, (10, 600), (64, 84)), (8, (60, 870), (0, -80))],
     note='Profilo ricostruito',
-    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Da fonte (Wikipedia): passo 1.450 mm (la tabella dei modelli 2 e 3 riporta 1.575 mm) e ruote posteriori da 1.260 mm. Ruota anteriore, telaio, sedile, motore e serbatoio stimati: profilo indicativo, non un rilievo.',
+    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Misure da fonte (Wikipedia): passo 1.450 mm (1.575 mm nella tabella dei modelli 2 e 3), ruote posteriori da 1.260 mm; il resto è ricostruito.',
     gap='Il disegno della Fig. 1 usa il passo (1.450 mm, con la divergenza già indicata) e il diametro delle ruote posteriori; ruota anteriore, telaio, sedile, volano, cilindro, serbatoio e manubrio sono ricostruiti. La lunghezza di 2.700 mm riportata dalla fonte non è rispettata dal profilo disegnato.',
 )
 
@@ -101,7 +101,7 @@ SPECS['daimler-motorkutsche-1886'] = dict(
     calls=[(1, (-80, 1250), (-62, -30)), (2, (-80, 1425), (44, -30)), (3, (-130, 860), (-150, -6)), (4, (1300, 650), (50, -40)),
            (5, (1597, 717), (34, -30)), (6, (400, 1000), (0, -70))],
     note='Profilo ricostruito',
-    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Da fonte (Wikipedia): passo 1.300 mm. Diametri delle ruote, cassa, sedili e posizione del motore stimati; il tratteggio indica le parti coperte dalla fiancata. Profilo indicativo, non un rilievo.',
+    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Misura da fonte (Wikipedia): passo 1.300 mm; il resto è ricostruito. Il tratteggio indica le parti nascoste dalla fiancata.',
     gap='Il disegno della Fig. 1 usa soltanto il passo di 1.300 mm; ruote, cassa, sedili, motore e volano sono ricostruiti. Lunghezza (2.530 mm) e larghezza (1.475 mm) di fonte non sono rispettate dal profilo disegnato.',
 )
 
@@ -123,7 +123,7 @@ SPECS['daimler-reitwagen-1885'] = dict(
     calls=[(1, (330, 700), (-60, -60)), (2, (406, 780), (56, -50)), (3, (150, 470), (-70, 54)), (4, (700, 410), (0, 60)),
            (5, (1242, 88), (36, 40)), (6, (-67, 28), (-36, 40))],
     note='Profilo ricostruito',
-    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Da fonte (motorradundreisen.de): passo 1.030 mm, ruote da 600 mm (lette come diametro), altezza 1.260 mm. Telaio, sella, motore, volani, cinghia e ruote stabilizzatrici stimati; l\'ingombro in lunghezza (2.500 mm) non è riprodotto. Profilo indicativo, non un rilievo.',
+    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Misure da fonte (motorradundreisen.de): passo 1.030 mm, ruote da 600 mm, altezza 1.260 mm; il resto è ricostruito.',
     gap='Il disegno della Fig. 1 usa passo, diametro delle ruote e altezza di fonte; telaio, sella, motore, volani, cinghia e stabilizzatori sono ricostruiti. La lunghezza di 2.500 mm della stessa scheda non è rispettata, perché il profilo disegnato è più corto.',
 )
 
@@ -144,7 +144,7 @@ SPECS['duryea-motor-wagon-1893'] = dict(
     calls=[(1, (170, 770), (-20, -64)), (2, (20, 770), (-44, 60)), (3, (480, 700), (50, 64)), (4, (-485, 485), (-40, -20)),
            (5, (1000, 878), (0, 62)), (6, (150, 1070), (0, -70))],
     note='Profilo ricostruito',
-    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Da fonte: ruote da 54 pollici (circa 1.370 mm; Wikipedia, senza dire se diametro né quale asse). Passo, ruote anteriori, telaio, pianale, sedile e motore stimati. Profilo indicativo, non un rilievo; trasmissione e sterzo non sono rappresentati.',
+    cap='Disegno tecnico in scala, vista laterale, anteriore a destra. Da fonte solo le ruote da 54 pollici (circa 1.370 mm, Wikipedia); il resto è ricostruito. Trasmissione e sterzo non sono rappresentati.',
     gap='Il disegno della Fig. 1 usa soltanto il diametro delle ruote posteriori (54 pollici, letto come diametro); passo, ruote anteriori, telaio, pianale, sedile, motore e volano sono ricostruiti. Gli ingombri complessivi della scheda dell\'oggetto (81 × 64 × 97 pollici) non sono disegnati, perché l\'assegnazione degli assi non è indicata dalla fonte.',
 )
 
@@ -167,7 +167,7 @@ SPECS['panhard-levassor-1891'] = dict(
     calls=[(1, (1330, 1015), (-10, -54)), (2, (1700, 840), (30, -64)), (3, (900, 840), (74, -28)), (4, (300, 600), (0, 66)),
            (5, (-354, 354), (-34, -24)), (6, (1190, 875), (-34, -50))],
     note='Proporzioni stimate',
-    cap='Disegno tecnico in scala indicativa, vista laterale, anteriore a destra. Nessuna misura risulta nelle fonti rilette: passo, diametri delle ruote, telaio e disposizione dei gruppi stimati. Profilo indicativo, non un rilievo.',
+    cap='Disegno tecnico in scala indicativa, vista laterale, anteriore a destra. Le fonti rilette non riportano misure: proporzioni ricostruite.',
     gap='Il disegno della Fig. 1 non poggia su misure di fonte: passo, diametri delle ruote, telaio, sedile, motore, cambio, radiatore, catena e timone sono stime, in scala solo rispetto a se stesse.',
 )
 
@@ -178,32 +178,32 @@ PHOTOS = {
    src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/1886_Benz_Patent_Motorwagen_(29744182207).jpg/960px-1886_Benz_Patent_Motorwagen_(29744182207).jpg',
    page=C+'1886_Benz_Patent_Motorwagen_(29744182207).jpg', author='Sicnag', lic='CC BY 2.0', licurl=BY2,
    alt='Replica del Benz Patent-Motorwagen del 1886, vista di tre quarti',
-   cap='Replica del Patent-Motorwagen del 1886, una delle 25 realizzate secondo la descrizione del file, fotografata al Petersen Museum di Los Angeles (2 settembre 2018). Non è l\'originale.'),
+   cap='Replica del Patent-Motorwagen del 1886 al Petersen Museum di Los Angeles.'),
  'daimler-reitwagen-1885': dict(
    src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/1885_Daimler_Reitwagen_-_Riding_car_0.5hp_pic1.JPG/960px-1885_Daimler_Reitwagen_-_Riding_car_0.5hp_pic1.JPG',
    page=C+'1885_Daimler_Reitwagen_-_Riding_car_0.5hp_pic1.JPG', author='AlfvanBeem', lic='CC0 1.0', licurl=CC0,
    alt='Replica del Daimler Reitwagen del 1885 in un museo',
-   cap='Replica del Reitwagen del 1885 all\'Auto & Technik Museum di Sinsheim (7 aprile 2012). L\'originale è andato distrutto nel 1903: la foto mostra una ricostruzione.'),
+   cap='Replica del Reitwagen del 1885 all\'Auto & Technik Museum di Sinsheim.'),
  'daimler-motorkutsche-1886': dict(
    src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Verkehrsmuseum_Dresden_-_Stra%C3%9Fenverkehr_-_Daimler_Motorkutsche_1886_-_DSC4800.jpg/960px-Verkehrsmuseum_Dresden_-_Stra%C3%9Fenverkehr_-_Daimler_Motorkutsche_1886_-_DSC4800.jpg',
    page=C+'Verkehrsmuseum_Dresden_-_Stra%C3%9Fenverkehr_-_Daimler_Motorkutsche_1886_-_DSC4800.jpg', author='Wuselig', lic='CC BY-SA 4.0', licurl=BYSA4,
    alt='Replica della Daimler Motorkutsche del 1886 al Verkehrsmuseum di Dresda',
-   cap='Replica della Motorkutsche del 1886 al Verkehrsmuseum di Dresda (6 marzo 2016). Non è l\'esemplare originale.'),
+   cap='Replica della Motorkutsche del 1886 al Verkehrsmuseum di Dresda.'),
  'panhard-levassor-1891': dict(
    src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/1891_Panhard_ET_Levassor_P2C_(2013_RACV_MotorClassica)_(10491423125).jpg/960px-1891_Panhard_ET_Levassor_P2C_(2013_RACV_MotorClassica)_(10491423125).jpg',
    page=C+'1891_Panhard_ET_Levassor_P2C_(2013_RACV_MotorClassica)_(10491423125).jpg', author='Chris Phutully', lic='CC BY 2.0', licurl=BY2,
    alt='Panhard et Levassor P2C del 1891, phaeton a due posti',
-   cap='Panhard et Levassor P2C del 1891 (telaio tipo A, phaeton a due posti), al RACV MotorClassica del 2013. Secondo la descrizione del file fu modernizzata nel 1902 e riportata alla configurazione originale a metà anni Ottanta; l\'autore ha elaborato l\'immagine con Photomatix.'),
+   cap='Panhard et Levassor P2C del 1891, phaeton a due posti, al RACV MotorClassica del 2013.'),
  'mercedes-35-ps-1901': dict(
    src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Mercedes_35hp_by_Wilhelm_Maybach.jpg/960px-Mercedes_35hp_by_Wilhelm_Maybach.jpg',
-   page=C+'Mercedes_35hp_by_Wilhelm_Maybach.jpg', author='Mercedes-Benz-Werkphoto (1901)', lic='pubblico dominio', licurl='',
+   page=C+'Mercedes_35hp_by_Wilhelm_Maybach.jpg', author='Mercedes-Benz-Werkphoto', lic='pubblico dominio', licurl='',
    alt='Fotografia di fabbrica del 1901 della Mercedes 35 hp',
-   cap='Mercedes 35 hp, fotografia di fabbrica del 1901. Commons la indica come pubblico dominio e rimanda a un sito non ufficiale come fonte.'),
+   cap='Mercedes 35 hp, fotografia di fabbrica del 1901.'),
  'duryea-motor-wagon-1893': dict(
    src='https://upload.wikimedia.org/wikipedia/commons/b/ba/The_Frank_Duryea_first_prize_motor_wagon_(the_%27Chicago_Times-Herald_race%27,_november_28,_1895).jpg',
-   page=C+"The_Frank_Duryea_first_prize_motor_wagon_(the_'Chicago_Times-Herald_race',_november_28,_1895).jpg", author='Scientific American, 7 dicembre 1895, pp. 357-358', lic='pubblico dominio', licurl='',
+   page=C+"The_Frank_Duryea_first_prize_motor_wagon_(the_'Chicago_Times-Herald_race',_november_28,_1895).jpg", author='Scientific American, 1895', lic='pubblico dominio', licurl='',
    alt='La Duryea vincitrice della corsa Chicago Times-Herald del 28 novembre 1895',
-   cap='Non è il Motor Wagon del 1893 della scheda, ma la Duryea vincitrice della corsa Chicago Times-Herald del 28 novembre 1895: riferimento d\'insieme per l\'aspetto di una Duryea, senza valore di rilievo del modello del 1893. Non è stata trovata su Commons una foto libera dell\'esemplare del 1893.'),
+   cap='Non è il Motor Wagon del 1893 della scheda, ma una Duryea del 1895, vincitrice della corsa Chicago Times-Herald: della stessa famiglia, ne condivide l\'impostazione da calesse motorizzato su ruote alte, e qui serve a dare un\'idea d\'insieme dell\'aspetto.'),
 }
 
 
@@ -258,7 +258,7 @@ def photo_html(slug):
     lic = f'<a href="{ph["licurl"]}" rel="license noopener">{ph["lic"]}</a>' if ph['licurl'] else ph['lic']
     return ('<figure class="fig photo">'
             f'<img src="{ph["src"]}" alt="{ph["alt"]}" loading="lazy" decoding="async" onerror="this.closest(\'figure\').hidden=true">'
-            f'<figcaption><b>Foto</b>{ph["cap"]} Autore: {ph["author"]}; licenza: {lic}; <a href="{ph["page"]}" rel="noopener">scheda del file su Wikimedia Commons</a>.</figcaption></figure>')
+            f'<figcaption><b>Foto</b>{ph["cap"]} {ph["author"]}, {lic}, via <a href="{ph["page"]}" rel="noopener">Wikimedia Commons</a>.</figcaption></figure>')
 
 def patch(slug):
     spec = SPECS[slug]
